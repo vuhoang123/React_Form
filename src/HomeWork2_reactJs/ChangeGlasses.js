@@ -117,7 +117,7 @@ export class ChangeGlasses extends Component {
           className="col-2 justify-content-center"
           onClick={() => this.changeGlasses(item)}
         >
-          <img src={item.img} className="w-100 " />
+          <img src={item.imgTest} className="w-100 " />
         </div>
       );
     });

@@ -1,20 +1,9 @@
-import "./App.css";
-import ChangeGlasses from "./HomeWork2_reactJs/ChangeGlasses";
+import Home from "./hook/Home";
 
 function App() {
   return (
-    <div className="App">
-      {/* <Header />
-      <Header />
-      <Header />
-      <Header />
-      <Header />
-      asdjlkasjdlkasjdlkadsjdlasjklsjk
-      <Footer /> */}
-      {/* <Home /> */}
-      {/* <DemoState /> */}
-      {/* <ChangeCar /> */}
-      <ChangeGlasses />
+    <div>
+      <Home />
     </div>
   );
 }
