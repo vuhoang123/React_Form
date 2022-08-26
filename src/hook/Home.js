@@ -41,7 +41,7 @@ function Home() {
 
   return (
     <div>
-      <h1>Quản Lý User</h1>
+      <h1>Quản Lý Sinh Viên</h1>
       <Form
         selectedUser={selectedUser}
         createUser={createUser}

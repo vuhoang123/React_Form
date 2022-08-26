@@ -1,23 +1,17 @@
 import { Button, Card, Input, Table } from "antd";
-import React from "react";
+import React, { useState } from "react";
 
 const { Search } = Input;
 
-const handleSearchTextChange = (e) => {
-  console.log(e.target.value);
-};
 function UserList(props) {
+  const [searchInput, setSearchInput] = useState();
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue);
+  };
   const columns = [
     {
-      title: "Id",
-      dataIndex: "id",
-    },
-    {
-      title: "Tài khoản",
-      dataIndex: "username",
-      render: (_, user) => {
-        return <h3>{user.username}</h3>;
-      },
+      title: "Mã SV",
+      dataIndex: "studentId",
     },
     {
       title: "Họ Tên",
@@ -30,10 +24,6 @@ function UserList(props) {
     {
       title: "Số ĐT",
       dataIndex: "phone",
-    },
-    {
-      title: "Mã loại người dùng",
-      dataIndex: "role",
     },
     {
       title: "",
@@ -53,12 +43,12 @@ function UserList(props) {
 
   return (
     <Card
-      title="Danh sách người dùng"
+      title="Danh sách sinh viên"
       headStyle={{ backgroundColor: "#000000", color: "#ffffff" }}
     >
       <Search
         placeholder="input search text"
-        onChange={handleSearchTextChange}
+        onChange={(e) => searchItems(e.target.value)}
       />
       <Table
         dataSource={props.users.map((user) => {

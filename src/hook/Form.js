@@ -1,40 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Card, Input, Select, Button } from "antd";
+import { Card, Input, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import styles from "./form.module.css";
 import * as yup from "yup";
 import isEmpty from "lodash.isempty";
 
 const userSchema = yup.object().shape({
-  username: yup.string().required("*Vui lòng nhập username"),
-  name: yup
-    .string()
-    .required("*Vui lòng nhập name")
-    .matches(/^[A-Za-z ]+$/g, "*Họ tên phải nhập chữ"),
-  password: yup
-    .string()
-    .required("*Vui lòng nhập pass")
-    .min(8, "*Nhập ít nhất 8 kí tự")
-    .max(16, "*Nhập tối đa 16 kí tự"),
+  studentId: yup.string().required("*Vui lòng nhập mã sv"),
+  name: yup.string().required("*Vui lòng nhập name"),
   phone: yup
     .string()
     .required("*Vui lòng nhập phone")
-    .matches(/^[0-9]+$/g),
+    .matches(/^[0-9]+$/g, "*Số điện thoại sai định dạng"),
   email: yup
     .string()
     .required("*Vui lòng nhập email")
     .email("*Email không đúng định dang"),
-  role: yup.string().required("*Vui lòng nhập role"),
 });
 
 function Form(props) {
   const [user, setUser] = useState({
-    username: "",
-    password: "",
+    studentId: "",
     name: "",
     email: "",
     phone: "",
-    role: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -50,10 +39,6 @@ function Form(props) {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
 
-  function handleSelect(name, val) {
-    setUser({ ...user, [name]: val });
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
     const isValid = await validateForm();
@@ -62,9 +47,10 @@ function Form(props) {
     if (props.selectedUser) {
       props.updateUser(user);
     } else {
-      props.createUser({ ...user, id: Math.floor(Math.random() * 1000 + 1) });
+      props.createUser({ ...user });
     }
     resetForm();
+    console.log(e);
   }
 
   async function validateForm() {
@@ -89,18 +75,16 @@ function Form(props) {
 
   function resetForm() {
     setUser({
-      username: "",
-      password: "",
+      studentId: "",
       name: "",
       email: "",
       phone: "",
-      role: "",
     });
   }
 
   return (
     <Card
-      title="Form Đăng ký"
+      title="Thông tin sinh viên"
       headStyle={{
         backgroundColor: "#000000",
         color: "#ffffff",
@@ -108,15 +92,15 @@ function Form(props) {
     >
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label>Tài Khoản</label>
+          <label>Mã SV</label>
           <Input
-            value={user.username}
-            name="username"
+            value={user.studentId}
+            name="studentId"
             onChange={handleChange}
-            placeholder="Tài khoản"
+            placeholder="Mã sinh viên"
             prefix={<UserOutlined />}
           />
-          <span>{errors.username}</span>
+          <span>{errors.studentId}</span>
         </div>
         <div className={styles.formGroup}>
           <label>Họ Tên</label>
@@ -129,17 +113,7 @@ function Form(props) {
           />
           <span>{errors.name}</span>
         </div>
-        <div className={styles.formGroup}>
-          <label>Mật Khẩu</label>
-          <Input
-            value={user.password}
-            name="password"
-            onChange={handleChange}
-            placeholder="Mật khẩu"
-            type="password"
-            prefix={<UserOutlined />}
-          />
-        </div>
+
         <div className={styles.formGroup}>
           <label>Số điện thoại</label>
           <Input
@@ -149,6 +123,7 @@ function Form(props) {
             placeholder="số dt"
             prefix={<UserOutlined />}
           />
+          <span>{errors.phone}</span>
         </div>
         <div className={styles.formGroup}>
           <label>Email</label>
@@ -159,25 +134,12 @@ function Form(props) {
             placeholder="email"
             prefix={<UserOutlined />}
           />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Mã loại người dùng</label>
-          <Select
-            value={user.role}
-            onChange={(val) => handleSelect("role", val)}
-            className={styles.select}
-          >
-            <Select.Option value="khachHang">Khách hàng</Select.Option>
-            <Select.Option value="quanTri">Quản trị viên</Select.Option>
-          </Select>
+          <span>{errors.email}</span>
         </div>
 
         <div className={styles.btn}>
           <Button type="primary" htmlType="submit">
             Submit
-          </Button>
-          <Button onClick={resetForm} type="default">
-            Reset
           </Button>
         </div>
       </form>
